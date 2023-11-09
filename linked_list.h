@@ -1,15 +1,12 @@
 #include <stdio.h>
 #include <stdint.h>
 
-/* Linked list node structure, does not support duplicate values */
+/* Linked list node structure */
 struct node {
     int value;
     struct node* next;
 
 };
-
-/* Insert a node at head postion */
-struct node* insert_first(struct node** head, int value);
 
 /* Insert a node at a given index */
 void insert(struct node** head, int value, int index);

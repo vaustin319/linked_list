@@ -1,33 +1,43 @@
 #include "linked_list.h"
 #include <stdlib.h>
 
-/* Insert a node at head postion */
-struct node* insert_first(struct node** head, int value) {
-    return *head;
-}
-
 /* Insert a node at a given index */
 void insert(struct node** head, int value, int index) {
-    if (index == 0) {
+    /* Check for invalid index */
+    if (index < 0) {
         return;
     }
-    struct node* curr = *head;
-    struct node* prev = *head;
-    struct node* new_node;
 
-    for (int i = 0; curr != NULL; i++) {
-        if (index == i) {
-            new_node = (struct node*) malloc(sizeof(struct node));
-            if (new_node == NULL) {
-                return;
-            }
-            new_node->value = value;
-            new_node->next = curr;
-            //prev->next = new_node;
-        } 
-        prev = curr;
-        curr = curr->next;
+    struct node* new_node = (struct node*) malloc(sizeof(struct node));
+    /* Check that malloc was successful */
+    if (new_node == NULL) {
+        return;
     }
+    new_node->value = value;
+
+    if (index == 0) {
+        /* Insert at the beginning, update head pointer */
+        new_node->next = *head;
+        *head = new_node;
+        return;
+    }
+
+    struct node* curr = *head;
+    for (int i = 0; curr != NULL; i++) {
+        if (i == index - 1) {
+            new_node->next = curr->next;
+            curr->next = new_node;
+            return;
+        } 
+        curr = curr->next;
+
+        /* Check for invalid index */
+        if (curr == NULL && index > i) {
+            free(new_node);
+            return;
+        }
+    }
+    
 }
 
 /* Remove a node at a given index */
@@ -64,9 +74,10 @@ struct node* find_largest(struct node* head) {
 void print_list(struct node* head) {
     struct node* curr = head;
     while (curr != NULL) {
-        printf("%d", curr->value);
+        printf("%d ", curr->value);
         curr = curr->next;
     }
+    printf("\n");
 }
 
 /* Counts the length of the linked list */
