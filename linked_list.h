@@ -14,13 +14,13 @@ void insert(struct node** head, int value, int index);
 /* Remove a node at a given index */
 void remove_at_index(struct node** head, int index);
 
-/* Remove a node with a given value */
+/* Remove all nodes with a given value */
 void remove_with_value(struct node** head, int value);
 
 /* Returns the node at the given index, or NULL */
 struct node* find_at_index(struct node* head, int index);
 
-/* Returns the node with the given value, or NULL */
+/* Returns a node with the given value, or NULL */
 struct node* find_with_value(struct node* head, int value);
 
 /* Returns the node with the smallest value in the linked list */

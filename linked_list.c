@@ -23,6 +23,7 @@ void insert(struct node** head, int value, int index) {
     }
 
     struct node* curr = *head;
+    int i = 0;
     for (int i = 0; curr != NULL; i++) {
         if (i == index - 1) {
             new_node->next = curr->next;
@@ -42,7 +43,34 @@ void insert(struct node** head, int value, int index) {
 
 /* Remove a node at a given index */
 void remove_at_index(struct node** head, int index) {
-    return;
+    /* Check for invalid index */
+    if (index < 0) {
+        return;
+    }
+
+    /* Check if we are removing the head */
+    if (index == 0) {
+        struct node* temp = *head;
+        *head = (*head)->next;
+        free(temp);
+        return;
+    }
+
+    struct node* curr = *head;
+    struct node* prev = NULL;
+    int i = 0;
+
+    while (curr != NULL && i < index) {
+        prev = curr;
+        curr = curr->next;
+        i++;
+    }
+
+    /* Index is in bouds */
+    if (index == i && curr != NULL) {
+        prev->next = curr->next;
+        free(curr);
+    }
 }
 
 /* Remove a node with a given value */
