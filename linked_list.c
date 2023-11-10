@@ -23,7 +23,6 @@ void insert(struct node** head, int value, int index) {
     }
 
     struct node* curr = *head;
-    int i = 0;
     for (int i = 0; curr != NULL; i++) {
         if (i == index - 1) {
             new_node->next = curr->next;
@@ -41,6 +40,13 @@ void insert(struct node** head, int value, int index) {
     
 }
 
+/* Helper for removing head of linked list */
+void remove_head(struct node** head) {
+    struct node* temp = *head;
+    *head = (*head)->next;
+    free(temp);
+}
+
 /* Remove a node at a given index */
 void remove_at_index(struct node** head, int index) {
     /* Check for invalid index */
@@ -50,9 +56,7 @@ void remove_at_index(struct node** head, int index) {
 
     /* Check if we are removing the head */
     if (index == 0) {
-        struct node* temp = *head;
-        *head = (*head)->next;
-        free(temp);
+        remove_head(head);
         return;
     }
 
@@ -73,9 +77,28 @@ void remove_at_index(struct node** head, int index) {
     }
 }
 
-/* Remove a node with a given value */
+/* Remove all nodes with a given value */
 void remove_with_value(struct node** head, int value) {
-    return;
+    struct node* curr = *head;
+    struct node* prev = NULL;
+
+    while(curr != NULL) {
+        if (curr->value == value) {
+            /* Check if we are removing the head */
+            if (prev == NULL) {
+                remove_head(&curr);
+                *head = curr;
+            } else {
+                prev->next = curr->next;
+                free(curr);
+                curr = prev->next;
+            }
+        } else {
+            prev = curr;
+            curr = curr->next;
+        }
+    }
+    
 }
 
 /* Returns the node at the given index, or NULL */
@@ -83,17 +106,17 @@ struct node* find_at_index(struct node* head, int index) {
     return head;
 }
 
-/* Returns the node with the given value, or NULL */
+/* Returns a node with the given value, or NULL */
 struct node* find_with_value(struct node* head, int value) {
     return head;
 }
 
-/* Returns the node with the smallest value in the linked list */
+/* Returns a node with the smallest value in the linked list */
 struct node* find_smallest(struct node* head) {
     return head;
 }
 
-/* Returns the node with the largest value in the linked list */
+/* Returns a node with the largest value in the linked list */
 struct node* find_largest(struct node* head) {
     return head;
 }
@@ -110,6 +133,11 @@ void print_list(struct node* head) {
 
 /* Counts the length of the linked list */
 size_t length(struct node* head) {
+    return 0;
+}
+
+/* Counts the number of nodes with a given value */
+int value_count(struct node* head, int value) {
     return 0;
 }
 
