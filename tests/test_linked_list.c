@@ -72,4 +72,5 @@ int main(void) {
     //test_remove_at_index(&head);
     printf("Testing remove by value\n");
     test_remove_with_value(&head, test_value);
+    free_list(head);
 }

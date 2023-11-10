@@ -143,7 +143,13 @@ int value_count(struct node* head, int value) {
 
 /* Frees the memory allocated for the linked list */
 void free_list(struct node* head) {
-    return;
+    struct node* curr = head;
+    struct node* temp;
+    while (curr != NULL) {
+        temp = curr;
+        curr = curr->next;
+        free(temp);
+    }
 }
 
 /* Sorts the nodes in the list in ascending or decending order with quick sort */
