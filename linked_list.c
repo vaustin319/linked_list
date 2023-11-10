@@ -120,7 +120,14 @@ struct node* find_at_index(struct node* head, int index) {
 
 /* Returns a node with the given value, or NULL */
 struct node* find_with_value(struct node* head, int value) {
-    return head;
+    struct node* curr = head;
+    while(curr != NULL) {
+        if (curr->value == value) {
+            return curr;
+        }
+        curr = curr->next;
+    }
+    return NULL;
 }
 
 /* Returns a node with the smallest value in the linked list */
@@ -145,12 +152,26 @@ void print_list(struct node* head) {
 
 /* Counts the length of the linked list */
 size_t length(struct node* head) {
-    return 0;
+    size_t len = 0;
+    struct node* curr = head;
+    while (curr != NULL) {
+        len++;
+        curr = curr->next;
+    }
+    return len;
 }
 
 /* Counts the number of nodes with a given value */
 int value_count(struct node* head, int value) {
-    return 0;
+    struct node* curr = head;
+    int count = 0;
+    while (curr != NULL) {
+        if (curr->value == value) {
+            count++;
+        }
+        curr = curr->next;
+    }
+    return count;
 }
 
 /* Frees the memory allocated for the linked list */
