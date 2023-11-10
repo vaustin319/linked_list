@@ -87,6 +87,7 @@ void remove_with_value(struct node** head, int value) {
             /* Check if we are removing the head */
             if (prev == NULL) {
                 remove_head(&curr);
+                /* Reset head pointer */
                 *head = curr;
             } else {
                 prev->next = curr->next;
@@ -103,7 +104,18 @@ void remove_with_value(struct node** head, int value) {
 
 /* Returns the node at the given index, or NULL */
 struct node* find_at_index(struct node* head, int index) {
-    return head;
+    if (index < 0) {
+        return NULL;
+    }
+
+    struct node* curr = head;
+    for (int i = 0; i <= index && curr != NULL; i++) {
+        if (i == index) {
+            return curr;
+        }
+        curr = curr->next;
+    }
+    return curr;
 }
 
 /* Returns a node with the given value, or NULL */

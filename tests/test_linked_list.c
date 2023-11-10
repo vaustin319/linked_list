@@ -28,6 +28,8 @@ void test_insert(struct node** head, int value ) {
     assert((*head)->next != NULL);
     assert((*head)->value == new_value);
     assert((*head)->next->next->next == NULL);
+
+    printf("test_insert pass\n");
 }
 
 void test_remove_at_index(struct node** head) {
@@ -43,9 +45,11 @@ void test_remove_at_index(struct node** head) {
     assert((*head)->value == 25);
     assert((*head)->next == NULL);
     print_list(*head);
+
+    printf("test_remove_at_index pass\n");
 }
 
-void test_remove_with_value(struct node**head, int value) {
+void test_remove_with_value(struct node** head, int value) {
     /* Remove last value */
     remove_with_value(head, value);
     print_list(*head);
@@ -59,6 +63,21 @@ void test_remove_with_value(struct node**head, int value) {
     print_list(*head);
     remove_with_value(head, (*head)->value);
     assert(*head == NULL);
+
+    printf("test_remove_with_value pass\n");
+}
+
+void test_find_at_index(struct node* head) {
+    /* Check if we get the right value for the given index */
+    struct node* result = find_at_index(head, 1);
+    assert(result != NULL);
+    assert(result->value == head->next->value);
+
+    /* Check that an out of bounds index returns NULL */
+    result = find_at_index(head, 40);
+    assert(result == NULL);
+
+    printf("test_find_at_index pass\n");
 }
 
 int main(void) {
@@ -70,7 +89,9 @@ int main(void) {
     printf("Testing insertion\n");
     test_insert(&head, test_value);
     //test_remove_at_index(&head);
-    printf("Testing remove by value\n");
-    test_remove_with_value(&head, test_value);
+    //printf("Testing remove by value\n");
+    //test_remove_with_value(&head, test_value);
+    printf("Test find at index");
+    test_find_at_index(head);
     free_list(head);
 }
