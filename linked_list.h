@@ -29,6 +29,12 @@ struct node* find_smallest(struct node* head);
 /* Returns a node with the largest value in the linked list */
 struct node* find_largest(struct node* head);
 
+/* Returns the node with the next smallest value in the linked list */
+struct node* find_next_smallest(struct node* head, int value);
+
+/* Returns the node with the next largest value in the linked list */
+struct node* find_next_largest(struct node* head, int value);
+
 /* Prints the elements of the linked list */
 void print_list(struct node* head);
 
@@ -41,5 +47,5 @@ int value_count(struct node* head, int value);
 /* Frees the memory allocated for the linked list */
 void free_list(struct node* head);
 
-/* Sorts the nodes in the list in ascending or decending order with quick sort */
+/* Sorts the nodes in the list in ascending or decending order */
 void sort_list(struct node** head, uint8_t ascending);

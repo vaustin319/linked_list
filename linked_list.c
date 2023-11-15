@@ -121,7 +121,7 @@ struct node* find_at_index(struct node* head, int index) {
 /* Returns a node with the given value, or NULL */
 struct node* find_with_value(struct node* head, int value) {
     struct node* curr = head;
-    while(curr != NULL) {
+    while (curr != NULL) {
         if (curr->value == value) {
             return curr;
         }
@@ -132,12 +132,28 @@ struct node* find_with_value(struct node* head, int value) {
 
 /* Returns a node with the smallest value in the linked list */
 struct node* find_smallest(struct node* head) {
-    return head;
+    struct node* curr = head;
+    struct node* smallest = head;
+    while (curr != NULL) {
+        if(curr->value < smallest->value) {
+            smallest = curr;
+        }
+        curr = curr->next;
+    }
+    return smallest;
 }
 
 /* Returns a node with the largest value in the linked list */
 struct node* find_largest(struct node* head) {
-    return head;
+    struct node* curr = head;
+    struct node* largest = head;
+    while (curr != NULL) {
+        if(curr->value > largest->value) {
+            largest = curr;
+        }
+        curr = curr->next;
+    }
+    return largest;
 }
 
 /* Prints the elements of the linked list */
@@ -185,7 +201,37 @@ void free_list(struct node* head) {
     }
 }
 
-/* Sorts the nodes in the list in ascending or decending order with quick sort */
+/* Returns the node with the next smallest value in the linked list. 
+Returns NULL if the given value is the smallest */
+struct node* find_next_smallest(struct node* head, int value) {
+    struct node* curr = head;
+    struct node* next_smallest = NULL;
+    while (curr != NULL) {
+        if(curr->value < value && (next_smallest == NULL || curr->value > next_smallest->value)) {
+            next_smallest = curr;
+        }
+        curr = curr->next;
+    }
+
+    return next_smallest;
+}
+
+/* Returns the node with the next largest value in the linked list.
+Returns NULL if the given value is the largest */
+struct node* find_next_largest(struct node* head, int value) {
+    struct node* curr = head;
+    struct node* next_largest = NULL;
+    while (curr != NULL) {
+        if(curr->value > value && (next_largest == NULL || curr->value < next_largest->value)) {
+            next_largest = curr;
+        }
+        curr = curr->next;
+    }
+
+    return next_largest;
+}
+
+/* Sorts the nodes in the list in ascending or decending order */
 void sort_list(struct node** head, uint8_t ascending) {
     return;
 }
