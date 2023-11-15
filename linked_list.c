@@ -207,7 +207,7 @@ struct node* find_next_smallest(struct node* head, int value) {
     struct node* curr = head;
     struct node* next_smallest = NULL;
     while (curr != NULL) {
-        if(curr->value < value && (next_smallest == NULL || curr->value > next_smallest->value)) {
+        if(curr->value < value && (next_smallest == NULL || curr->value >= next_smallest->value)) {
             next_smallest = curr;
         }
         curr = curr->next;
@@ -222,7 +222,7 @@ struct node* find_next_largest(struct node* head, int value) {
     struct node* curr = head;
     struct node* next_largest = NULL;
     while (curr != NULL) {
-        if(curr->value > value && (next_largest == NULL || curr->value < next_largest->value)) {
+        if(curr->value > value && (next_largest == NULL || curr->value <= next_largest->value)) {
             next_largest = curr;
         }
         curr = curr->next;
@@ -231,7 +231,47 @@ struct node* find_next_largest(struct node* head, int value) {
     return next_largest;
 }
 
+/* Helper that returns the prev node of the target node */
+struct node* get_prev(struct node* head, struct node* target) {
+    /* Check if target is the head */
+    if (target == head) {
+        return NULL;
+    }
+    struct node* prev = NULL;
+    struct node* curr = head;
+    while (curr != NULL) {
+        prev = curr;
+        curr = curr->next;
+    }
+    return prev;
+}
+
 /* Sorts the nodes in the list in ascending or decending order */
 void sort_list(struct node** head, uint8_t ascending) {
+    if (ascending == 1) {
+        struct node* smallest = find_smallest(*head);
+        struct node* prev = NULL;
+        if (smallest != *head) {
+            prev = get_prev(*head, smallest);
+            prev->next = smallest->next;
+            smallest->next = *head;
+            *head = smallest;
+        }
+        int len = length(*head);
+        struct node* curr_largest = smallest;
+        struct node* next_largest = NULL;
+        for (int i = 1; i < len - 1; i++) {
+            next_largest = find_next_largest(*head, curr_largest->value);
+            /* Check if this part of the list is already sorted */
+            if (curr_largest->next == next_largest) {
+                prev = get_prev(*head, next_largest);
+                prev->next = next_largest->next;
+                next_largest->next = curr_largest->next;
+                curr_largest->next = next_largest;
+            }
+            curr_largest = next_largest;
+        }
+
+    }
     return;
 }
