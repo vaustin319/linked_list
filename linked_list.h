@@ -44,8 +44,12 @@ size_t length(struct node* head);
 /* Counts the number of nodes with a given value */
 int value_count(struct node* head, int value);
 
+/* Helper that returns the prev node of the target node */
+struct node* get_prev(struct node* head, struct node* target);
+
 /* Frees the memory allocated for the linked list */
 void free_list(struct node* head);
 
-/* Sorts the nodes in the list in ascending or decending order */
+/* Sorts the nodes in the list in ascending or decending order
+using merge sort*/
 void sort_list(struct node** head, uint8_t ascending);

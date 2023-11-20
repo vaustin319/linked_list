@@ -233,45 +233,88 @@ struct node* find_next_largest(struct node* head, int value) {
 
 /* Helper that returns the prev node of the target node */
 struct node* get_prev(struct node* head, struct node* target) {
-    /* Check if target is the head */
-    if (target == head) {
-        return NULL;
-    }
     struct node* prev = NULL;
     struct node* curr = head;
     while (curr != NULL) {
+        if (curr == target) {
+            return prev;
+        }
         prev = curr;
         curr = curr->next;
     }
     return prev;
 }
 
-/* Sorts the nodes in the list in ascending or decending order */
-void sort_list(struct node** head, uint8_t ascending) {
-    if (ascending == 1) {
-        struct node* smallest = find_smallest(*head);
-        struct node* prev = NULL;
-        if (smallest != *head) {
-            prev = get_prev(*head, smallest);
-            prev->next = smallest->next;
-            smallest->next = *head;
-            *head = smallest;
-        }
-        int len = length(*head);
-        struct node* curr_largest = smallest;
-        struct node* next_largest = NULL;
-        for (int i = 1; i < len - 1; i++) {
-            next_largest = find_next_largest(*head, curr_largest->value);
-            /* Check if this part of the list is already sorted */
-            if (curr_largest->next == next_largest) {
-                prev = get_prev(*head, next_largest);
-                prev->next = next_largest->next;
-                next_largest->next = curr_largest->next;
-                curr_largest->next = next_largest;
-            }
-            curr_largest = next_largest;
-        }
-
+struct node* merge(struct node* a, struct node* b, uint8_t ascending) {
+    if (a == NULL) {
+        return b;
+    } else if (b == NULL) {
+        return a;
     }
-    return;
+
+    struct node* result = NULL;
+
+    if (ascending == 0) {
+        if (a->value >= b->value) {
+            result = a;
+            result->next = merge(a->next, b, ascending);
+        } else {
+            result = b;
+            result->next = merge(b->next, a, ascending);
+        }
+    } else {
+        if (a->value <= b->value) {
+            result = a;
+            result->next = merge(a->next, b, ascending);
+        } else {
+            result = b;
+            result->next = merge(b->next, a, ascending);
+        }
+    }
+    return result;
+}
+
+void split_list(struct node* head, struct node** front, struct node** back) {
+    if (head == NULL || head->next == NULL) {
+        *front = head;
+        *back = NULL;
+        return;
+    }
+    
+    struct node* fast = head->next;
+    struct node* slow = head;
+
+    /* fast moves two nodes at a time and slow moves one */
+    while (fast != NULL) {
+        fast = fast->next;
+        if (fast != NULL) {
+            fast = fast->next;
+            slow = slow->next;
+        }
+    }
+
+    /* slow is the midpoint, split the list down the middle */
+    *front = head;
+    *back = slow->next;
+    slow->next = NULL;
+}
+
+/* Sorts the nodes in the list in ascending or decending order 
+using merge sort */
+void sort_list(struct node** head, uint8_t ascending) {
+    if (*head == NULL || (*head)->next == NULL) {
+        return;
+    }
+    struct node* a;
+    struct node* b;
+
+    /* Split linked list in half */
+    split_list(*head, &a, &b);
+
+    /* Recursively split and sort list */
+    sort_list(&a, ascending);
+    sort_list(&b, ascending);
+
+    /* Merge sorted halves */
+    *head = merge(a, b, ascending);
 }

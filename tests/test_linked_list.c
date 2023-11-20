@@ -194,6 +194,33 @@ void test_find_next_largest(struct node* head) {
     printf("test_find_next_largest pass\n");
 }
 
+void test_get_prev(struct node* head) {
+    /* Check we return null for the head */
+    struct node* expect = NULL;
+    struct node* prev = get_prev(head, head);
+    assert(prev == expect);
+
+    /* Check that it works for a child node */
+    expect = head;
+    prev = get_prev(head, head->next);
+    assert(expect == prev);
+
+    printf("test_get_prev pass\n");
+}
+
+void test_sort_list(struct node** head) {
+    /* Visually verify we can sort in ascending order */
+    uint8_t ascending = 1;
+    sort_list(head, ascending);
+    printf("Result for sort_list in ascending order:\n");
+    print_list(*head);
+
+    /* Visually verify we can sort in descending order */
+    ascending = 0;
+    sort_list(head, ascending);
+    printf("Result for sort_list in descending order:\n");
+    print_list(*head);
+}
 
 void build_list(struct node** head) {
     int list_size = 7;
@@ -219,6 +246,8 @@ void run_tests(struct node** head) {
     test_find_largest(*head);
     test_find_next_smallest(*head);
     test_find_largest(*head);
+    test_get_prev(*head);
+    test_sort_list(head);
 }
 
 int main(void) {
