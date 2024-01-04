@@ -245,6 +245,7 @@ struct node* get_prev(struct node* head, struct node* target) {
     return prev;
 }
 
+/* Helper to merge two portions on a linked list in ascending or descending order. */
 struct node* merge(struct node* a, struct node* b, uint8_t ascending) {
     if (a == NULL) {
         return b;
@@ -274,6 +275,8 @@ struct node* merge(struct node* a, struct node* b, uint8_t ascending) {
     return result;
 }
 
+/* Helper to split a linked list down the middle. Front is the head and back
+is the midpoint. */
 void split_list(struct node* head, struct node** front, struct node** back) {
     if (head == NULL || head->next == NULL) {
         *front = head;
